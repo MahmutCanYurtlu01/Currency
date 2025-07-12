@@ -37,7 +37,7 @@ const exchange =  () => {
   };
   useEffect(()=>{
     exchange()
-  },[amount])
+  },[amount,fromCurrency,toFromCurrency])
 
 
 
