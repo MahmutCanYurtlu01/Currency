@@ -7,19 +7,39 @@ const BASEURL = "https://api.freecurrencyapi.com/v1/latest";
 const APIKEY = "fca_live_ALnmFIQUJ3rrPU527QWamBS1fdgbR02QIKYDMhSc";
 
 function Currency() {
-  const [amount, setAmount] = useState();
+  const [amount, setAmount] = useState(0);
   const [fromCurrency, setFromCurrency] = useState("USD");
   const [toFromCurrency, setToFromCurrency] = useState("TRY");
   const [result, setResult] = useState(0);
 
-  const exchange = async () => {
+  const [veri,setVeri]=useState({})
+
+  useEffect(()=>{
+    const fetchRates = async () => {
     const response = await axios.get(
       `${BASEURL}?apikey=${APIKEY}&base_currency=${fromCurrency}`
     );
-    const answer = (response.data.data[toFromCurrency] * amount).toFixed(2);
+    // const answer = (response.data.data[toFromCurrency] * amount).toFixed(2);
+    
+    setVeri(response.data.data)
+
+  };
+  
+  fetchRates()
+
+  },[fromCurrency])
+
+const exchange =  () => {
+    
+    const answer = (veri[toFromCurrency] * amount).toFixed(2);
 
     setResult(answer);
   };
+  useEffect(()=>{
+    exchange()
+  })
+
+
 
   return (
     <>
@@ -69,14 +89,14 @@ function Currency() {
             />
           </div>
 
-          <div className="text-center">
+          {/* <div className="text-center">
             <button
-              className="bg-indigo-600 text-white font-medium rounded-md px-6 py-2 hover:bg-indigo-700 transition"
-              onClick={exchange}
+              className="bg-orange-500 text-white font-medium rounded-md px-6 py-2 hover:bg-indigo-700 transition cursor-pointer  duration-300 hover:scale-110"
+              // onClick={exchange}
             >
-              Çalıştır
+              CONVERT
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
