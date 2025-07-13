@@ -21,7 +21,7 @@ function App() {
       </div>
       <div>
         {/* burası düzeltilecek */}
-        {user ? <Currency /> : <p>farklı currency çağır</p>}
+        {user ? <Currency /> : <p></p>}
       </div>
     </div>
   );

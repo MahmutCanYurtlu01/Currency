@@ -4,42 +4,39 @@ import axios from "axios";
 import { currencies } from "./Data/data";
 
 const BASEURL = "https://api.freecurrencyapi.com/v1/latest";
-const APIKEY = "fca_live_ALnmFIQUJ3rrPU527QWamBS1fdgbR02QIKYDMhSc";
+const APIKEY = import.meta.env.VITE_API_KEY;
 
 function Currency() {
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState();
   const [fromCurrency, setFromCurrency] = useState("USD");
   const [toFromCurrency, setToFromCurrency] = useState("TRY");
   const [result, setResult] = useState(0);
 
-  const [veri,setVeri]=useState({})
+  const [veri, setVeri] = useState({});
 
-  useEffect(()=>{
+  useEffect(() => {
     const fetchRates = async () => {
-    const response = await axios.get(
-      `${BASEURL}?apikey=${APIKEY}&base_currency=${fromCurrency}`
-    );
-    // const answer = (response.data.data[toFromCurrency] * amount).toFixed(2);
-    
-    setVeri(response.data.data)
+      const response = await axios.get(
+        `${BASEURL}?apikey=${APIKEY}&base_currency=${fromCurrency}`
+      );
+      // const answer = (response.data.data[toFromCurrency] * amount).toFixed(2);
 
-  };
-  
-  fetchRates()
+      setVeri(response.data.data);
+    };
 
-  },[fromCurrency])
+    fetchRates();
+  }, [fromCurrency]);
 
-const exchange =  () => {
-    
+console.log(APIKEY)
+
+  const exchange = () => {
     const answer = (veri[toFromCurrency] * amount).toFixed(2);
 
     setResult(answer);
   };
-  useEffect(()=>{
-    exchange()
-  },[amount,fromCurrency,toFromCurrency])
-
-
+  useEffect(() => {
+    exchange();
+  }, [amount, fromCurrency, toFromCurrency]);
 
   return (
     <>
